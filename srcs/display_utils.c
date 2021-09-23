@@ -1,18 +1,26 @@
 #include "fdf.h"
 
-t_apex		get_apex_of_diamonds(t_point pt, t_img img, double angle)
+t_apex		get_apex_of_diamonds(t_point pt, t_img img, t_display disp)
 {
 	t_apex	apex;
 
-	apex.a.x = pt.x;
-	apex.a.y = pt.y;
-	apex.b.x = apex.a.x + cos(angle) * img.coef_x;
-	apex.b.y = apex.a.y + sin(angle) * img.coef_x;
-	apex.c.x = apex.a.x - sin(90 - angle) * img.coef_y;
-	apex.c.y = apex.a.y + cos(90 - angle) * img.coef_y;
-	apex.d.x = apex.c.x + cos(angle) * img.coef_x;
-	apex.d.y = apex.c.y + sin(angle) * img.coef_x;
+	apex.a = get_apex_a(disp, pt);
+	apex.b.x = apex.a.x + sin(convert(90 - disp.angle)) * img.coef_x;
+	apex.b.y = apex.a.y + cos(convert(90 - disp.angle)) * img.coef_x;
+	apex.c.x = apex.a.x - cos(convert(90 - disp.angle)) * img.coef_y;
+	apex.c.y = apex.a.y + sin(convert(90 - disp.angle)) * img.coef_y;
+	apex.d.x = apex.c.x + sin(convert(90 - disp.angle)) * img.coef_x;
+	apex.d.y = apex.c.y + cos(convert(90 - disp.angle)) * img.coef_x;
 	return (apex);
+}
+
+t_ptdouble		get_apex_a(t_display disp, t_point pt)
+{
+	t_ptdouble	pt_a;
+
+	pt_a.x = disp.origin.x + pt.x * disp.vect_x.x + pt.y * disp.vect_y.y;
+	pt_a.y = disp.origin.y + pt.y * disp.vect_y.x + pt.x * disp.vect_x.y;
+	return (pt_a);
 }
 
 t_vect		get_vect_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
@@ -22,6 +30,14 @@ t_vect		get_vect_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
 	vect.x = pt_b.x - pt_a.x;
 	vect.y = pt_b.y - pt_a.y;
 	return (vect);
+}
+
+double			convert(double degre)
+{
+	double rad;
+
+	rad = degre / 57.2958;
+	return (rad);
 }
 
 double		get_dist_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
@@ -53,4 +69,18 @@ void		print_apex(t_apex apex)
 	printf("apex.b : (%f, %f)\n", apex.b.x, apex.b.y);
 	printf("apex.c : (%f, %f)\n", apex.c.x, apex.c.y);
 	printf("apex.d : (%f, %f)\n", apex.d.x, apex.d.y);
+}
+
+t_display		init_display(t_img img)
+{
+	t_display		disp;
+
+	disp.origin.x = 600;
+	disp.origin.y = 100;
+	disp.angle = 45;
+	disp.vect_x.x = sin(convert(90 - disp.angle)) * img.coef_x;
+	disp.vect_x.y = cos(convert(90 - disp.angle)) * img.coef_x;
+	disp.vect_y.x = -cos(convert(90 - disp.angle)) * img.coef_y;
+	disp.vect_y.y = sin(convert(90 - disp.angle)) * img.coef_y;
+	return (disp);
 }
