@@ -32,6 +32,20 @@ typedef struct	s_vect
 	double		y;
 }				t_vect;
 
+typedef struct	s_line
+{
+	double	a;
+	double	b;
+}				t_line;
+
+typedef struct	s_lines
+{
+	t_line	ab;
+	t_line	ac;
+	t_line	bd;
+	t_line	cd;
+}				t_lines;
+
 typedef struct	s_display
 {
 	t_point		origin;
@@ -132,4 +146,10 @@ void		print_inside_diamonds(t_img *img, t_apex apex);
 int			is_pts_equal(t_ptdouble pt_a, t_ptdouble pt_b);
 
 t_ptdouble	get_one_apex_inside(t_ptdouble pt_a, t_ptdouble pt_b);
+
+t_apex		get_apex_biggest_line(t_apex apex);
+
+t_ptdouble	get_pt_perpendiculare(t_lines lines, t_ptdouble pt);
+
+t_lines		get_eq_lines(t_apex apex);
 #endif
