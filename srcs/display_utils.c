@@ -1,25 +1,20 @@
 #include "fdf.h"
 
-t_apex		get_apex_of_diamonds(t_point pt, t_img img, t_display disp)
+t_apex		get_apex_of_diamonds(t_apex apex, t_display disp)
 {
-	t_apex	apex;
-
-	apex.a = get_apex_a(disp, pt);
-	apex.b.x = apex.a.x + sin(convert(90 - disp.angle)) * img.coef_x;
-	apex.b.y = apex.a.y + cos(convert(90 - disp.angle)) * img.coef_x;
-	apex.c.x = apex.a.x - cos(convert(90 - disp.angle)) * img.coef_y;
-	apex.c.y = apex.a.y + sin(convert(90 - disp.angle)) * img.coef_y;
-	apex.d.x = apex.c.x + sin(convert(90 - disp.angle)) * img.coef_x;
-	apex.d.y = apex.c.y + cos(convert(90 - disp.angle)) * img.coef_x;
+	apex.a = get_apex(disp, apex.a);
+	apex.b = get_apex(disp, apex.b);
+	apex.c = get_apex(disp, apex.c);
+	apex.d = get_apex(disp, apex.d);
 	return (apex);
 }
 
-t_ptdouble		get_apex_a(t_display disp, t_point pt)
+t_ptdouble		get_apex(t_display disp, t_ptdouble pt)
 {
 	t_ptdouble	pt_a;
 
-	pt_a.x = disp.origin.x + pt.x * disp.vect_x.x + pt.y * disp.vect_y.y;
-	pt_a.y = disp.origin.y + pt.y * disp.vect_y.x + pt.x * disp.vect_x.y;
+	pt_a.x = disp.origin.x + pt.x * disp.vect_x.x + pt.y * disp.vect_y.x;
+	pt_a.y = disp.origin.y + pt.x * disp.vect_x.y + pt.y * disp.vect_y.y;
 	return (pt_a);
 }
 
@@ -75,12 +70,66 @@ t_display		init_display(t_img img)
 {
 	t_display		disp;
 
-	disp.origin.x = 600;
-	disp.origin.y = 100;
+	disp.origin.x = 500;
+	disp.origin.y = 50;
 	disp.angle = 45;
-	disp.vect_x.x = sin(convert(90 - disp.angle)) * img.coef_x;
-	disp.vect_x.y = cos(convert(90 - disp.angle)) * img.coef_x;
-	disp.vect_y.x = -cos(convert(90 - disp.angle)) * img.coef_y;
-	disp.vect_y.y = sin(convert(90 - disp.angle)) * img.coef_y;
+	disp.vect_x.x = cos(convert(disp.angle)) * img.coef_x;
+	disp.vect_x.y = sin(convert(disp.angle)) * img.coef_x;
+	disp.vect_y.x = -sin(convert(disp.angle)) * img.coef_y;
+	disp.vect_y.y = cos(convert(disp.angle)) * img.coef_y;
 	return (disp);
+}
+
+void		display_line(t_ptdouble apex_a, t_ptdouble apex_b, int size_line, t_img *img)
+{
+	t_vect		vect;
+	t_ptdouble	count;
+	double		dist;
+	int		pos;
+
+	dist = get_dist_btw_2_pts(apex_a, apex_b);
+	count.x = apex_a.x;
+	count.y = apex_a.y;
+	vect = get_vect_btw_2_pts(apex_a, apex_b);
+	while (get_dist_btw_2_pts(count, apex_a) < dist)
+	{
+		pos = ((int)count.x * 4 + size_line * (int)count.y);
+		img->data[pos] = 100;
+		img->data[pos + 1] = 50;
+		img->data[pos + 2] = 90;
+		count = apply_vect(count, vect, 0.0001);
+	}
+}	
+
+t_apex		get_apex_inside(t_apex apex)
+{
+	t_apex		new;
+
+	new.a = get_one_apex_inside(apex.a, apex.d);
+	new.b = get_one_apex_inside(apex.b, apex.c);
+	new.c = get_one_apex_inside(apex.c, apex.b);
+	new.d = get_one_apex_inside(apex.d, apex.a);
+	return (new);
+}
+
+t_ptdouble	get_one_apex_inside(t_ptdouble pt_a, t_ptdouble pt_b)
+{
+	t_ptdouble		new;
+	t_vect			vect;
+
+	vect = get_vect_btw_2_pts(pt_a, pt_b);
+	new.x= pt_a.x;
+	new.y= pt_a.y;
+	while (is_pts_equal(pt_a, new))
+	{
+		new = apply_vect(new, vect, 0.001);
+	}
+	return (new);
+}
+
+int		is_pts_equal(t_ptdouble pt_a, t_ptdouble pt_b)
+{
+	if (((int)pt_a.x != (int)pt_b.x && (pt_a.y - pt_b.y > 0.2 || pt_a.y - pt_b.y < -0.2)) || ((int)pt_a.y != (int)pt_b.y && (pt_a.x - pt_b.x > 0.2 || pt_a.x - pt_b.x < -0.2)))
+		return (0);
+	return (1);
 }
