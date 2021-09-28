@@ -35,6 +35,14 @@ double			convert(double degre)
 	return (rad);
 }
 
+double			convert_inv(double rad)
+{
+	double degre;
+
+	degre = 57.2958 * rad;
+	return (degre);
+}
+
 double		get_dist_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
 {
 	double		dist;
@@ -84,6 +92,7 @@ void		display_line(t_ptdouble apex_a, t_ptdouble apex_b, int size_line, t_img *i
 {
 	t_vect		vect;
 	t_ptdouble	count;
+	t_ptdouble	witness;
 	double		dist;
 	int		pos;
 
@@ -97,15 +106,16 @@ void		display_line(t_ptdouble apex_a, t_ptdouble apex_b, int size_line, t_img *i
 		img->data[pos] = 100;
 		img->data[pos + 1] = 50;
 		img->data[pos + 2] = 90;
-		count = apply_vect(count, vect, 0.0001);
+		witness = count;
+		while ((int)witness.x == (int)count.x && (int)witness.y == (int)count.y)
+			count = apply_vect(count, vect, 0.001);
 	}
-}	
+}
 
 t_apex		get_apex_inside(t_apex apex)
 {
 	t_apex		new;
 
-	print_apex(apex);
 	new.a = get_one_apex_inside(apex.a, apex.d);
 	new.b = get_one_apex_inside(apex.b, apex.c);
 	new.c = get_one_apex_inside(apex.c, apex.b);

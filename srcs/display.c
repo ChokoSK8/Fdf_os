@@ -21,7 +21,10 @@ void	display_squares(t_img *img, t_ptdouble **mat_pos)
 
 void	print_diamonds(t_img *img, t_ptdouble **mat_pos, t_point pt, t_display disp)
 {
-	t_apex	apex;
+	t_apex		apex;
+	t_eraser	eraser;
+	t_lines		lines;
+	t_apex		new;
 
 	if (mat_pos[pt.y + 1] && mat_pos[pt.y][pt.x + 1].x != -1)
 	{
@@ -30,17 +33,27 @@ void	print_diamonds(t_img *img, t_ptdouble **mat_pos, t_point pt, t_display disp
 		apex.c = mat_pos[pt.y + 1][pt.x];
 		apex.d = mat_pos[pt.y + 1][pt.x + 1];
 		apex = get_apex_of_diamonds(apex, disp);
-		display_line_bleu(apex.a, apex.b, img->size_line, img);
-		display_line_bleu(apex.b, apex.d, img->size_line, img);
-		display_line_bleu(apex.a, apex.c, img->size_line, img);
-		display_line_bleu(apex.c, apex.d, img->size_line, img);
-		erase_lines(apex, img);
-//		printf("pt : (%d, %d)\n", pt.x, pt.y);
-//			print_inside_diamonds(img, apex);
+		display_line(apex.a, apex.b, img->size_line, img);
+		display_line(apex.b, apex.d, img->size_line, img);
+		display_line(apex.a, apex.c, img->size_line, img);
+		display_line(apex.c, apex.d, img->size_line, img);
+		if (pt.y == 0 && pt.x == 0)
+		{
+			new = get_apex_inside(apex);
+			print_apex(new);
+			lines = get_eq_lines(new);
+			printf("lines.ac -> a : %f ; b : %f\n", lines.ac.a, lines.ac.b); 
+			printf("lines.bd -> a : %f ; b : %f\n", lines.bd.a, lines.bd.b); 
+			printf("lines.cd -> a : %f ; b : %f\n", lines.cd.a, lines.cd.b); 
+			printf("lines.ab -> a : %f ; b : %f\n", lines.ab.a, lines.ab.b); 
+			eraser = get_erasers(lines);
+			printf("eraser.a -> a : %f ; b : %f\n", eraser.a.a, eraser.a.b); 
+			printf("eraser.b -> a : %f ; b : %f\n", eraser.b.a, eraser.b.b); 
+		}
 	}
 }
 
-void	erase_lines(t_apex apex, t_img *img)
+/*void	erase_lines(t_apex apex, t_img *img)
 {
 	t_vect		vect_h;
 	t_vect		vect_v;
@@ -52,7 +65,7 @@ void	erase_lines(t_apex apex, t_img *img)
 	vect_v = get_vect_btw_2_pts(new.a, new.c);
 	vect_h = get_vect_btw_2_pts(new.a, new.b);
 }	
-/*void	print_inside_diamonds(t_img *img, t_apex apex)
+void	print_inside_diamonds(t_img *img, t_apex apex)
 {
 	t_apex		new;
 	t_lines		lines;

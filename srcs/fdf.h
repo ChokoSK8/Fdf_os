@@ -38,6 +38,12 @@ typedef struct	s_line
 	double	b;
 }				t_line;
 
+typedef struct	s_eraser
+{
+	t_line	a;
+	t_line	b;
+}				t_eraser;
+
 typedef struct	s_lines
 {
 	t_line	ab;
@@ -129,6 +135,8 @@ t_display	init_display(t_img img);
 
 double		convert(double degre);
 
+double		convert_inv(double rad);
+
 void		display_line(t_ptdouble apex_a, t_ptdouble apex_b, int size_line, t_img *img);
 
 t_ptdouble	**get_mat_pos(t_map map);
@@ -152,4 +160,12 @@ t_apex		get_apex_biggest_line(t_apex apex);
 t_ptdouble	get_pt_perpendiculare(t_lines lines, t_ptdouble pt);
 
 t_lines		get_eq_lines(t_apex apex);
+
+t_eraser	get_erasers(t_lines lines);
+
+double		get_angle_from_pts(t_line line_a, t_line line_b);
+
+t_eraser	init_eraser(t_line line_a, t_line line_b);
+
+t_vect		get_vect_from_line(t_line line);
 #endif
