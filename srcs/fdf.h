@@ -13,6 +13,7 @@
 # include "../Minilibx-os/mlx.h"
 # include "../Libft/libft.h"
 # include "../Gnl/get_next_line.h"
+# define ABS(x) ((x) < 0 ? (-x):(x))
 
 typedef struct	s_point
 {
@@ -40,9 +41,27 @@ typedef struct	s_line
 
 typedef struct	s_eraser
 {
-	t_line	a;
-	t_line	b;
+	t_line		a;
+	t_line		b;
+	t_ptdouble	pt_a;
+	t_ptdouble	pt_c;
+	t_ptdouble	pt_d;
 }				t_eraser;
+
+typedef struct	s_line_perp
+{
+	double		a;
+	double		b;
+	double		x_1;
+	double		x_2;
+}				t_line_perp;
+
+typedef struct	s_param_perp
+{
+	t_line_perp		ab;
+	t_line_perp		ac;
+	t_line_perp		bd;
+}				t_param_perp;
 
 typedef struct	s_lines
 {
@@ -161,11 +180,21 @@ t_ptdouble	get_pt_perpendiculare(t_lines lines, t_ptdouble pt);
 
 t_lines		get_eq_lines(t_apex apex);
 
-t_eraser	get_erasers(t_lines lines);
+t_eraser	get_erasers(t_lines lines, t_apex apex);
 
-double		get_angle_from_pts(t_line line_a, t_line line_b);
+double		get_angle_from_pts(t_ptdouble pt_a, t_ptdouble pt_b, t_ptdouble pt_c);
 
-t_eraser	init_eraser(t_line line_a, t_line line_b);
+t_eraser	init_eraser(t_line line_a, t_line line_b, t_apex apex, int n);
 
 t_vect		get_vect_from_line(t_line line);
+
+void		erase_inside(t_apex apex, t_lines lines, t_img *img);
+
+t_ptdouble	get_pt_perp(t_lines lines, t_ptdouble count, t_line eraser, t_apex apex);
+
+t_param_perp		get_l_tmp(t_lines lines, t_line eraser, t_apex apex);
+
+int		is_line_equal_to_eraser(t_line line, t_line eraser);
+
+int		is_pt_between_x(double x_a, double x_b, double x_c);
 #endif
