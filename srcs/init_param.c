@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-int		init_param(t_param *param, char *file)
+int	init_param(t_param *param, char *file)
 {
 	int		ret;
 
@@ -19,7 +19,7 @@ void	init_param_len_and_coef(t_param *param)
 	param->height = param->img.coef_y * (param->map.height) * 2;
 }
 
-int		init_map(t_map *map, char *file)
+int	init_map(t_map *map, char *file)
 {
 	char		*line;
 	int			fd;
@@ -31,17 +31,11 @@ int		init_map(t_map *map, char *file)
 	if (!fd)
 		return (-1);
 	ret = get_next_line(fd, &line);
-	if (ret < 1)
-		return (ret);
-	map->data = malloc(sizeof(char *));
-	if (!map->data)
+	if (ret < 1 || !get_map_ready(map))
 		return (-1);
-	map->data[0] = 0;
-	map->height = 0;
-	map->max_width = 0;
-	while (ret)
+	while (ret > 0)
 	{
-		map->data = ft_add_line(map->data, line);
+		map->data = ft_add_line_fdf(map->data, line);
 		if (map->max_width < ft_digitlen_in_str(map->data[count]))
 			map->max_width = ft_digitlen_in_str(map->data[count]);
 		if (!map->data)
