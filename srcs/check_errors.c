@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 12:17:09 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/19 11:31:43 by abrun            ###   ########.fr       */
+/*   Created: 2021/10/05 10:00:39 by abrun             #+#    #+#             */
+/*   Updated: 2021/10/05 11:01:47 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-char	*ft_strdup(const char *s1)
+int	check_digit_int(char *digit)
 {
-	size_t			s1_len;
-	unsigned char	*dst;
-	unsigned int	len;
+	size_t		digit_len;
 
-	s1_len = ft_strlen(s1) + 1;
-	len = s1_len;
-	dst = malloc(sizeof(char) * s1_len);
-	if (!dst)
-		return (NULL);
-	while (s1_len--)
-		*dst++ = *s1++;
-	return ((char *)dst - len);
+	digit_len = ft_strlen(digit);
+	if (digit_len < 10)
+		return (1);
+	if (digit_len >= 12)
+		return (0);
+	if (digit_len == 11 && *digit != '-')
+		return (0);
+	if (digit_len == 11 && ft_strncmp(digit, "-2147483647", 11) > 0)
+		return (0);
+	if (digit_len == 10 && ft_strncmp(digit, "2147483647", 10) > 0)
+		return (0);
+	return (1);
 }

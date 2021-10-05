@@ -1,13 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrun <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/05 12:05:44 by abrun             #+#    #+#             */
+/*   Updated: 2021/10/05 12:05:46 by abrun            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int	is_pts_equal(t_ptdouble pt_a, t_ptdouble pt_b)
+int	is_pts_equal(t_ptdbl pt_a, t_ptdbl pt_b)
 {
-	if (((int)pt_a.x != (int)pt_b.x
-			&& (pt_a.y - pt_b.y > 0.2 || pt_a.y - pt_b.y < -0.2))
-		|| ((int)pt_a.y != (int)pt_b.y
-			&& (pt_a.x - pt_b.x > 0.2 || pt_a.x - pt_b.x < -0.2)))
-		return (0);
-	return (1);
+	if ((int)pt_a.x == (int)pt_b.x && (int)pt_a.y == (int)pt_b.y)
+		return (1);
+	return (0);
 }
 
 t_lines	get_eq_lines(t_apex apex)
@@ -46,7 +55,7 @@ int	is_line_equal_to_eraser(t_line line, t_line eraser)
 	return (0);
 }
 
-int	is_ptdouble_equal(t_ptdouble pt_a, t_ptdouble pt_b)
+int	is_ptdouble_equal(t_ptdbl pt_a, t_ptdbl pt_b)
 {
 	if (pt_a.x == pt_b.x && pt_a.y == pt_b.y)
 		return (1);

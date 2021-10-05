@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrun <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/05 12:05:50 by abrun             #+#    #+#             */
+/*   Updated: 2021/10/05 12:05:52 by abrun            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-t_vect	get_vect_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
+t_vect	get_vect_btw_2_pts(t_ptdbl pt_a, t_ptdbl pt_b)
 {
 	t_vect		vect;
 
@@ -25,7 +37,7 @@ double	convert_inv(double rad)
 	return (degre);
 }
 
-double	get_dist_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
+double	get_dist_btw_2_pts(t_ptdbl pt_a, t_ptdbl pt_b)
 {
 	double	dist;
 
@@ -33,7 +45,7 @@ double	get_dist_btw_2_pts(t_ptdouble pt_a, t_ptdouble pt_b)
 	return (dist);
 }
 
-t_ptdouble	apply_vect(t_ptdouble pt, t_vect vect, double len)
+t_ptdbl	apply_vect(t_ptdbl pt, t_vect vect, double len)
 {
 	pt.x += (len * vect.x);
 	pt.y += (len * vect.y);
