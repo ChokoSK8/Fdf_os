@@ -2,7 +2,7 @@ NAME		= fdf
 
 LIB_MLX		= libmlx.a
 
-SRCS		= main.c close_window.c free_param.c init_param.c init_param_utils.c ../Gnl/get_next_line_utils.c ../Gnl/get_next_line.c display.c get_mat_pos.c char_to_int.c erase_inside.c print_diamonds_utils.c get_pt_perp.c get_pt_perp_utils.c tools.c tools_2.c check_errors.c
+SRCS		= main.c close_window.c free_param.c init_param.c init_param_utils.c ../Gnl/get_next_line_utils.c ../Gnl/get_next_line.c display.c get_mat_pos.c char_to_int.c char_to_int_utils.c erase_inside.c print_diamonds_utils.c get_pt_perp.c get_pt_perp_utils.c tools.c tools_2.c tools_3.c check_errors.c tmp.c
 
 OBJS		= $(SRCS:.c=.o)
 

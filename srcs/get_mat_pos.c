@@ -6,13 +6,13 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 11:24:25 by abrun             #+#    #+#             */
-/*   Updated: 2021/10/05 12:13:11 by abrun            ###   ########.fr       */
+/*   Updated: 2021/10/14 12:09:44 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_ptdbl	**get_mat_pos(t_map map)
+t_ptdbl	**get_mat_pos(t_map map, long double z)
 {
 	t_point	pt;
 	t_ptdbl	**mat;
@@ -32,9 +32,10 @@ t_ptdbl	**get_mat_pos(t_map map)
 		pt.x = -1;
 		while (++pt.x < (int)map.max_width)
 		{
-			mat[pt.y][pt.x].x = pt.x - 0.04 * (map.mati[pt.y][pt.x]);
-			mat[pt.y][pt.x].y = pt.y - 0.04 * (map.mati[pt.y][pt.x]);
+			mat[pt.y][pt.x].x = pt.x - z * (map.mati[pt.y][pt.x]);
+			mat[pt.y][pt.x].y = pt.y - z * (map.mati[pt.y][pt.x]);
 		}
+	//	printf("pt : (%d, %d)\n", pt.x, pt.y);
 		mat[pt.y][pt.x].x = -1;
 	}
 	mat[pt.y] = 0;

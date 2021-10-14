@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 11:22:42 by abrun             #+#    #+#             */
-/*   Updated: 2021/10/05 11:23:08 by abrun            ###   ########.fr       */
+/*   Updated: 2021/10/14 14:32:04 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ int	main(int ac, char **av)
 	if (ac < 2)
 		return (0);
 	if (!init_param(&param, av[1]))
-	{
-		printf("\nTest des leaks\n");
-		system("leaks fdf | grep leaked\n");
 		return (0);
-	}
 	param.mlx = mlx_init();
 	param.img.image = mlx_new_image(param.mlx, param.width, param.height);
 	param.img.data = mlx_get_data_addr(param.img.image,

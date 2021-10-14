@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_window.c                                     :+:      :+:    :+:   */
+/*   tmp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrun <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 12:05:25 by abrun             #+#    #+#             */
-/*   Updated: 2021/10/14 09:58:39 by abrun            ###   ########.fr       */
+/*   Created: 2021/10/08 16:06:29 by abrun             #+#    #+#             */
+/*   Updated: 2021/10/08 16:20:13 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_close_window(int key, t_param *param)
+void	ft_print_matl(long double **mat, int max_width)
 {
-	if (key == 65307)
+	int	x;
+	int	y;
+
+	y = 0;
+	while (mat[y])
 	{
-		free_param(param);
-		mlx_destroy_window(param->mlx, param->win);
-//		mlx_destroy_display(param->mlx);
-		free(param->mlx);
-		exit(0);
+		x = 0;
+		while (x < max_width)
+		{
+			printf("mat[%d][%d] : %Lf\n", y, x, mat[y][x]);
+			x++;
+		}
+		write(1, "\n", 1);
+		y++;
 	}
-	return (1);
 }
